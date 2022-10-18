@@ -1,7 +1,8 @@
 package com.example.demo.Controllers;
 
-import com.example.demo.Model.Person;
 import com.example.demo.Service.PersonService;
+import com.example.demo.data.vo.v1.PersonVO;
+import com.example.demo.data.vo.v2.PersonVOV2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,30 +21,35 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE) // produces e consumes é necessário para a documentação do swagger
-    public Person findById(@PathVariable(name = "id") Long id) {
-
+    public PersonVO findById(@PathVariable(name = "id") Long id) {
         return personService.findById(id);
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> findAll(String id) {
-
+    public List<PersonVO> findAll(String id) {
         return personService.findAll();
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Person create(@RequestBody Person person) {
+    public PersonVO create(@RequestBody PersonVO person) {
 
         return personService.create(person);
     }
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody Person person) {
+    @PostMapping(value = "/v2", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVOV2 createV2(@RequestBody PersonVOV2 person) {
 
+        return personService.createV2(person);
+    }
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVO update(@RequestBody PersonVO person) {
         return personService.update(person);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> Delete(@PathVariable(name = "id") Long id) {
-        return new ResponseEntity<>(personService.delete(id), HttpStatus.NO_CONTENT);
+        PersonVO person = personService.findById(id);
+        personService.delete(id);
+        String message = person.getFirstName() + " " + person.getLastName() + " was succesfully removed!";
+        return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
     }
 }
 
