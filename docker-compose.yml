@@ -21,8 +21,8 @@ services:
   rest-with-spring-boot:
     image: joaomiol/my-springbootapp:1.1
     restart: 'no'
-    build: ./rest-with-springboot-and-java
-    working_dir: /rest-with-springboot-and-java
+    build: ./
+    working_dir: /
     environment:
       TZ: America/Lisbon
       SPRING.DATASOURCE.URL: jdbc:mysql://db:3308/rest_with_springboot?useTimezone=true&serverTimezone=UTC
