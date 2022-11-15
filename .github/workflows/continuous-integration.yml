@@ -36,15 +36,15 @@ jobs:
         cache: maven
         
     - name: Build Application .jar
-      working-directory: ./Users/joaomiol/IdeaProjects/rest-with-springboot-and-java
+      working-directory: ./rest-with-springboot-and-java
       run: mvn clean package
       
     - name: Docker compose build
-      working-directory: ./Users/joaomiol/IdeaProjects
+      working-directory: ./rest-with-springboot-and-java
       run: docker compose build
       
     - name: Push to dockerhub container registry
-      working-directory: ./Users/joaomiol/IdeaProjects
+      working-directory: ./rest-with-springboot-and-java
       run: |
         docker tag ${{ secrets.DOCKER_USERNAME }}/my-springbootapp:1.1 ${{ secrets.DOCKER_USERNAME }}/my-springbootapp:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/my-springbootapp:${{ github.run_id }}
