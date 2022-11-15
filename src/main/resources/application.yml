@@ -3,7 +3,7 @@ server:
 cors:
   originPatterns: http://localhost:3030,https://erudio.com.br
 file:
-  upload-dir: /Users/joaomiol/Desktop/backup
+  upload-dir: /home/run/work/rest-with-springboot-and-java/
 security:
   jwt:
     token:
