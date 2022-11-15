@@ -1,12 +1,13 @@
 package com.example.demo.data.vo.v1;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-
-public class PersonVO implements Serializable {
+@JsonPropertyOrder({"id", "firstName", "lastName", "address", "gender", "enabled"})
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Long id;
@@ -14,8 +15,16 @@ public class PersonVO implements Serializable {
     private String lastName;
     private String address;
     private String gender;
+    private Boolean enabled;
 
     public PersonVO() {
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long key) {
+        this.id = key;
     }
 
     public PersonVO(Long id, String firstName, String lastName, String address, String gender) {
@@ -24,14 +33,6 @@ public class PersonVO implements Serializable {
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -66,16 +67,25 @@ public class PersonVO implements Serializable {
         this.gender = gender;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonVO person = (PersonVO) o;
-        return id.equals(person.id) && firstName.equals(person.firstName) && lastName.equals(person.lastName) && address.equals(person.address) && gender.equals(person.gender);
+        if (!super.equals(o)) return false;
+        PersonVO personVO = (PersonVO) o;
+        return id.equals(personVO.id) && firstName.equals(personVO.firstName) && lastName.equals(personVO.lastName) && address.equals(personVO.address) && gender.equals(personVO.gender) && enabled.equals(personVO.enabled);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender);
+        return Objects.hash(super.hashCode(), id, firstName, lastName, address, gender, enabled);
     }
 }
